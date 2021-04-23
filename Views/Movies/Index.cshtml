@@ -1,0 +1,51 @@
+﻿@model List<EF_LAb.Models.Movie>
+@{
+    ViewData["Title"] = "Фильмы";
+}
+
+@using (Html.BeginForm("Search", "Movies", FormMethod.Get))
+{
+    <div class="row">
+        <div class="col-3">
+            <a href="@Url.Action("Create", "Movies")" type="button" class="btn btn-block btn-outline-success">Добавить новый фильм</a>
+        </div>
+        <div class="col-7">
+            <!--<button type="submit" class="btn btn-primary">Отправить</button>-->
+            <div class="form-group">
+                <input type="text" class="form-control" name="q" placeholder="Поиск">
+            </div>
+
+        </div>
+        <div class="col-2">
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="target" id="exampleRadios1" value="Name" checked>
+                <label class="form-check-label" for="exampleRadios1">
+                    По названию
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="target" id="exampleRadios2" value="Year">
+                <label class="form-check-label" for="exampleRadios2">
+                    По году
+                </label>
+            </div>
+        </div>
+    </div>
+}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                Фильмы
+            </div>
+            <ul class="list-group list-group-flush">
+                @{
+                    foreach (EF_LAb.Models.Movie movie in Model)
+                    {
+                        <li class="list-group-item"><a href="@Url.Action("Show", "Movies", new { Id = movie.Id })">@movie.Name (@movie.Year)</a></li>
+                    }
+                }
+            </ul>
+        </div>
+    </div>
+</div>

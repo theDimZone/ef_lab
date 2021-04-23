@@ -1,0 +1,120 @@
+﻿@using EF_LAb.Models
+@model EF_LAb.Models.Selection
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+    <div class="row">
+        <div class="col-8">
+            <h2>@Model.Name</h2>
+        </div>
+        <div class="col-2">
+            <a href="@Url.Action("Update", "Selections", new { Id = Model.Id })" type="button" class="btn btn-block btn-outline-success">Редактировать</a>
+        </div>
+
+        <!-- delete button and modal -->
+        <div class="col-2">
+            <button type="button" class="btn btn-block btn-outline-danger" data-toggle="modal" data-target="#deleteModal">
+                Удалить
+            </button>
+
+            <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="deleteModalLabel">Осторожно</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            ...
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Отменить</button>
+                            @using (Html.BeginForm("Delete", "Selections", FormMethod.Post))
+                            {
+                                <input type="hidden" name="Id" value="@Model.Id" />
+
+                                <button type="submit" class="btn btn-block btn-danger">Удалить</button>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- add movie modal -->
+        <div class="modal fade" id="movieModal" tabindex="-1" role="dialog" aria-labelledby="movieModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="movieModalLabel">Добавить фильм</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    @using (Html.BeginForm("AddMovieToSelection", "Selections", FormMethod.Post))
+                    {
+                <div class="modal-body">
+                    <input type="hidden" name="SelectionId" value="@Model.Id">
+
+                    <div class="form-group">
+                        <label>Название</label>
+                        <input type="text" class="form-control" placeholder="Интерстеллар" name="MovieName" required>
+
+                    </div>
+                    <div class="form-group">
+                        <label>Год</label>
+                        <input type="number" class="form-control" placeholder="2022" name="MovieYear" required>
+                    </div>
+                </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                            <button type="submit" class="btn btn-primary">Отправить</button>
+                        </div>
+                    }
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+<br />
+<div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        Фильмы:
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        @{
+                            if (Model.SelectionMovies.Count > 0)
+                            {
+                                foreach (SelectionMovie selection_movie in Model.SelectionMovies)
+                                {
+                                                <li class="list-group-item">
+                                                    <div class="row">
+                                                        <div class="col-11">
+                                                            <a href="@Url.Action("Show", "Movies", new { Id = selection_movie.Movie.Id })">@selection_movie.Movie.Name (@selection_movie.Movie.Year)</a>
+                                                        </div>
+                                                        <div class="col-1">
+                                                            @using (Html.BeginForm("RemoveMovieFromSelection", "Selections", FormMethod.Post))
+                                                            {
+                                                                 <input type="hidden" name="MovieId" value="@selection_movie.Movie.Id" />
+                                                                 <input type="hidden" name="SelectionId" value="@Model.Id" />
+                                                                 <button align="right" type="submit" class="btn btn-light">X</button>
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                }
+
+                            }
+                        }
+                        <li class="list-group-item"><button type="button" class="btn btn-outline-secondary"  data-toggle="modal" data-target="#movieModal">Добавить фильм</button></li>
+                    </ul>
+                </div>
+            </div>
+</div>
+

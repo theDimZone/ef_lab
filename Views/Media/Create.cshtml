@@ -1,0 +1,49 @@
+﻿@{
+    ViewData["Title"] = "Добавление нового медиа файла";
+}
+
+<div class="row">
+    <div class="col">
+        <h2>Добавление нового медиа файла</h2>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <a href="@Url.Action("Show", "Movies", new { Id = ViewContext.HttpContext.Request.Query["movie_id"] })">Назад к фильму</a>
+    </div>
+</div>
+ <br />
+<div class="row">
+    <div class="col-6">
+        @using (Html.BeginForm("Create", "Media", FormMethod.Post))
+        {
+            <input type="hidden" name="MovieId" value="@ViewContext.HttpContext.Request.Query["movie_id"]" />
+
+            <div class="form-group">
+                <label>Название</label>
+                <input type="text" class="form-control" placeholder="Трейлер" name="Name" required>
+            </div>
+
+
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" name="Type" type="radio"  id="inlineRadio1" value="url" checked>
+                <label class="form-check-label" for="inlineRadio1">Ссылка на сайт</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" name="Type" type="radio"  id="inlineRadio2" value="youtube">
+                <label class="form-check-label" for="inlineRadio2">Ссылка на youtube видео</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" name="Type" type="radio" id="inlineRadio3" value="img" >
+                <label class="form-check-label" for="inlineRadio3">Ссылка на изображение</label>
+            </div>
+
+            <div class="form-group">
+                <label>Ссылка</label>
+                <input type="text" class="form-control" placeholder="http://..." name="Url" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Отправить</button>
+        }
+
+    </div>
+</div>

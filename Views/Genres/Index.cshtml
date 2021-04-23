@@ -1,0 +1,20 @@
+﻿@model List<EF_LAb.Models.Genre>
+@{
+    ViewData["Title"] = "Жанры";
+}
+<div class="row">
+    <div class="col-9">
+        <ul class="list-group">
+            <li class="list-group-item">Жанры</li>
+            @{
+                foreach (var genre in Model)
+                {
+                    <li class="list-group-item"><a href="@Url.Action("Show", "Genres", new { Id = genre.Id })">@genre.Name</a></li>
+                }
+            }
+        </ul>
+    </div>
+    <div class="col-3">
+        <a href="@Url.Action("Create", "Genres")" type="button" class="btn btn-block btn-outline-success">Добавить новый жанр</a>
+    </div>
+</div>

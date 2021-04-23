@@ -1,0 +1,23 @@
+﻿@{
+    ViewData["Title"] = "Добавление новой подборки";
+}
+
+<div class="row">
+    <div class="col">
+        <h2>Добавление новой подборки</h2>
+    </div>
+</div>
+        <br />
+<div class="row">
+    <div class="col-6">
+        @using (Html.BeginForm("Create", "Selections", FormMethod.Post))
+        {
+            <div class="form-group">
+                <label>Название</label>
+                <input type="text" class="form-control" placeholder="Мои любимые фильмы" name="Name" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Отправить</button>
+        }
+
+    </div>
+</div>

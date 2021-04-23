@@ -1,0 +1,36 @@
+﻿@model EF_LAb.Models.Actor
+@{
+    ViewData["Title"] = "Редактирование актера " + Model.Name;
+}
+
+<div class="row">
+    <div class="col">
+        <h2>Редактирование актера: @Model.Name</h2>
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-6">
+        @using (Html.BeginForm("Update", "Actors", FormMethod.Post))
+        {
+            <input type="hidden" name="Id" value="@Model.Id" />
+
+            <div class="form-group">
+                <label>Имя</label>
+                <input type="text" class="form-control" placeholder="Иван Иванов" name="Name" value="@Model.Name" required>
+            </div>
+            <div class="form-group">
+                <label>Дата рождения</label>
+                <input type="date" class="form-control" name="Birthday" value="@{ if (Model.Birthday.Year != 1) { @Model.Birthday.ToString("yyyy-MM-dd")}; }" required>
+            </div>
+            <div class="form-group">
+                <label>Страна рождения</label>
+                <input type="text" class="form-control" placeholder="Россия" name="CountryName" value="@{ if (Model.Country != null) { @Model.Country.Name }; }" required>
+            </div>
+
+
+            <button type="submit" class="btn btn-primary">Отправить</button>
+        }
+
+    </div>
+</div>

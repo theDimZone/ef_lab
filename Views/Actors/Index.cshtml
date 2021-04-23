@@ -1,0 +1,48 @@
+﻿@model List<EF_LAb.Models.Actor>
+@{
+    ViewData["Title"] = "Актеры";
+}
+
+@using (Html.BeginForm("Search", "Actors", FormMethod.Get))
+{
+    <div class="row">
+        <div class="col-3">
+            <a href="@Url.Action("Create", "Actors")" type="button" class="btn btn-block btn-outline-success">Добавить нового актера</a>
+        </div>
+        <div class="col-7">
+            <!--<button type="submit" class="btn btn-primary">Отправить</button>-->
+            <div class="form-group">
+                <input type="text" class="form-control" name="q" placeholder="Поиск">
+            </div>
+
+        </div>
+        <div class="col-2">
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="target" id="exampleRadios1" value="Name" checked>
+                <label class="form-check-label" for="exampleRadios1">
+                    По имени
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="target" id="exampleRadios2" value="Year">
+                <label class="form-check-label" for="exampleRadios2">
+                    По году рождения
+                </label>
+            </div>
+        </div>
+    </div>
+}
+
+<div class="row">
+    <div class="col-12">
+        <ul class="list-group">
+            <li class="list-group-item">Все актеры</li>
+            @{
+                foreach (var actor in Model)
+                {
+                    <li class="list-group-item"><a href="@Url.Action("Show", "Actors", new { Id = actor.Id })">@actor.Name</a></li>
+                }
+            }
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,23 @@
+﻿@{
+    ViewData["Title"] = "Добавление нового жанра";
+}
+
+<div class="row">
+    <div class="col">
+        <h2>Добавление нового жанра</h2>
+    </div>
+</div>
+        <br />
+<div class="row">
+    <div class="col-6">
+        @using (Html.BeginForm("Create", "Genres", FormMethod.Post))
+        {
+            <div class="form-group">
+                <label>Название</label>
+                <input type="text" class="form-control" placeholder="Боевик" name="Name" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Отправить</button>
+        }
+
+    </div>
+</div>

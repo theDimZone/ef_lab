@@ -1,0 +1,43 @@
+﻿@model EF_LAb.Models.Media
+@{
+    ViewData["Title"] = "Редактирование медиа файла";
+}
+
+<div class="row">
+    <div class="col">
+        <h2>Редактирование медиа файла: @Model.Name</h2>
+    </div>
+</div>
+
+<br />
+<div class="row">
+    <div class="col-6">
+        @using (Html.BeginForm("Update", "Media", FormMethod.Post))
+        {
+            <div class="form-group">
+                <label>Название</label>
+                <input type="text" class="form-control" placeholder="Трейлер" name="Name" value="@Model.Name" required>
+            </div>
+
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" name="Type" type="radio" id="inlineRadio1" value="url" @{ if (Model.Type == "url") { @("checked"); }; }>
+                <label class="form-check-label" for="inlineRadio1">Ссылка на сайт</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" name="Type" type="radio" id="inlineRadio2" value="youtube" @{ if (Model.Type == "youtube") { @("checked"); }; }>
+                <label class="form-check-label" for="inlineRadio2">Ссылка на youtube видео</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" name="Type" type="radio" id="inlineRadio3" value="img" @{ if (Model.Type == "img") { @("checked"); }; }>
+                <label class="form-check-label" for="inlineRadio3">Ссылка на изображение</label>
+            </div>
+
+            <div class="form-group">
+                <label>Ссылка</label>
+                <input type="text" class="form-control" placeholder="http://..." name="Url"  value="@Model.Url"  required>
+            </div>
+            <button type="submit" class="btn btn-primary">Отправить</button>
+        }
+
+    </div>
+</div>

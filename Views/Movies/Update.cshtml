@@ -1,0 +1,44 @@
+﻿@model EF_LAb.Models.Movie
+@{
+    ViewData["Title"] = "Редактирование актера " + Model.Name;
+}
+
+<div class="row">
+    <div class="col">
+        <h2>Редактирование фильма: @Model.Name</h2>
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-6">
+        @using (Html.BeginForm("Update", "Movies", FormMethod.Post))
+        {
+            <input type="hidden" name="Id" value="@Model.Id" />
+
+            <div class="form-group">
+                <label>Название</label>
+                <input type="text" class="form-control" placeholder="Интерстеллар" name="Name" value="@Model.Name" required>
+            </div>
+            <div class="form-group">
+                <label>Страна</label>
+                <input type="text" class="form-control" placeholder="Россия" name="CountryName"  value="@{ if (Model.Country != null) { @Model.Country.Name }; }" required>
+            </div>
+            <div class="form-group">
+                <label>Год выпуска</label>
+                <input type="number" class="form-control" placeholder="2007" name="Year" value="@Model.Year" required>
+            </div>
+            <div class="form-group">
+                <label>Режиссер</label>
+                <input type="text" class="form-control" placeholder="Гай Ричи" name="DirectorName"  value="@{ if (Model.Director != null) { @Model.Director.Name }; }" required>
+            </div>
+            <div class="form-group">
+                <label>Описание</label>
+                <input type="text" class="form-control" placeholder="..." name="Details" value="@Model.Details">
+            </div>
+
+
+            <button type="submit" class="btn btn-primary">Отправить</button>
+        }
+
+    </div>
+</div>

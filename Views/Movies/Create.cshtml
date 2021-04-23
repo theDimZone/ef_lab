@@ -1,0 +1,39 @@
+﻿@{
+    ViewData["Title"] = "Добавление нового фильма";
+}
+
+<div class="row">
+    <div class="col">
+        <h2>Добавление нового фильма</h2>
+    </div>
+</div>
+        <br />
+<div class="row">
+    <div class="col-6">
+        @using (Html.BeginForm("Create", "Movies", FormMethod.Post))
+        {
+            <div class="form-group">
+                <label>Название</label>
+                <input type="text" class="form-control" placeholder="Интерстеллар" name="Name" required>
+            </div>
+            <div class="form-group">
+                <label>Страна</label>
+                <input type="text" class="form-control" placeholder="Россия" name="CountryName" required>
+            </div>
+            <div class="form-group">
+                <label>Год выпуска</label>
+                <input type="number" class="form-control" placeholder="2007" name="Year" required>
+            </div>
+            <div class="form-group">
+                <label>Режиссер</label>
+                <input type="text" class="form-control" placeholder="Гай Ричи" name="DirectorName" required>
+            </div>
+            <div class="form-group">
+                <label>Описание</label>
+                <input type="text" class="form-control" placeholder="..." name="Details">
+            </div>
+            <button type="submit" class="btn btn-primary">Отправить</button>
+        }
+
+    </div>
+</div>

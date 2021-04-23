@@ -1,0 +1,20 @@
+﻿@model List<EF_LAb.Models.Country>
+@{
+    ViewData["Title"] = "Страны";
+}
+    <div class="row">
+        <div class="col-9">
+            <ul class="list-group">
+                <li class="list-group-item">Страны</li>
+                @{
+                    foreach (var country in Model)
+                    {
+                        <li class="list-group-item"><a href="@Url.Action("Show", "Countries", new { Id = country.Id })">@country.Name</a></li>
+                    }
+                }
+            </ul>
+        </div>
+        <div class="col-3">
+            <a href="@Url.Action("Create", "Countries")" type="button" class="btn btn-block btn-outline-success">Добавить новую страну</a>
+        </div>
+    </div>

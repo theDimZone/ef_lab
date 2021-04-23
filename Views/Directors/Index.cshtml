@@ -1,0 +1,21 @@
+﻿@model List<EF_LAb.Models.Director>
+@{
+    ViewData["Title"] = "Режиссеры";
+}
+
+<div class="row">
+    <div class="col-9">
+        <ul class="list-group">
+            <li class="list-group-item">Все режиссеры</li>
+            @{
+                foreach (var director in Model)
+                {
+                    <li class="list-group-item"><a href="@Url.Action("Show", "Directors", new { Id = director.Id })">@director.Name</a></li>
+                }
+            }
+        </ul>
+    </div>
+    <div class="col-3">
+        <a href="@Url.Action("Create", "Directors")" type="button" class="btn btn-block btn-outline-success">Добавить нового режиссера</a>
+    </div>
+</div>

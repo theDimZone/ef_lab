@@ -1,0 +1,258 @@
+﻿@using EF_LAb.Models
+@model EF_LAb.Models.Movie
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+    <div class="row">
+        <div class="col-8">
+            <h2>@Model.Name</h2>
+        </div>
+        <div class="col-2">
+            <a href="@Url.Action("Update", "Movies", new { Id = Model.Id })" type="button" class="btn btn-block btn-outline-success">Редактировать</a>
+        </div>
+
+        <!-- delete button and modal -->
+        <div class="col-2">
+            <button type="button" class="btn btn-block btn-outline-danger" data-toggle="modal" data-target="#deleteModal">
+                Удалить
+            </button>
+
+            <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="deleteModalLabel">Осторожно</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            ...
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Отменить</button>
+                            @using (Html.BeginForm("Delete", "Movies", FormMethod.Post))
+                            {
+                                <input type="hidden" name="Id" value="@Model.Id" />
+
+                                <button type="submit" class="btn btn-block btn-danger">Удалить</button>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- add actor modal -->
+        <div class="modal fade" id="actorModal" tabindex="-1" role="dialog" aria-labelledby="actorModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="actorModalLabel">Добавить актера</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    @using (Html.BeginForm("AddActorToMovie", "Movies", FormMethod.Post))
+                    {
+                        <div class="modal-body">
+                            <input type="hidden" name="MovieId" value="@Model.Id">
+
+                            <div class="form-group">
+                                <label>Имя</label>
+                                <input type="text" class="form-control" placeholder="Иван" name="ActorName" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                            <button type="submit" class="btn btn-primary">Отправить</button>
+                        </div>
+                    }
+                </div>
+
+            </div>
+        </div>
+
+        <!-- add genre modal -->
+        <div class="modal fade" id="genreModal" tabindex="-1" role="dialog" aria-labelledby="genreModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="genreModalLabel">Добавить жанр</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    @using (Html.BeginForm("AddGenreToMovie", "Movies", FormMethod.Post))
+                    {
+                        <div class="modal-body">
+                            <input type="hidden" name="MovieId" value="@Model.Id">
+
+                            <div class="form-group">
+                                <label>Название</label>
+                                <input type="text" class="form-control" placeholder="Боевик" name="GenreName" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                            <button type="submit" class="btn btn-primary">Отправить</button>
+                        </div>
+                    }
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+<div class="row">
+    <div class="col-8">
+        Год: @Model.Year
+    </div>
+</div>
+@{ if (Model.Details != null)
+    {
+        <div class="row">
+            <div class="col-8">
+                Описание: <p>@Model.Details</p>
+            </div>
+        </div>
+    }
+}
+@{ if (Model.Country != null)
+    {
+        <div class="row">
+            <div class="col-8">
+                Страна: <a href="@Url.Action("Show", "Countries", new { Id = Model.Country.Id })">@Model.Country.Name</a>
+            </div>
+        </div>
+    }
+}
+@{ if (Model.Director != null)
+    {
+        <div class="row">
+            <div class="col-8">
+                Режиссер: <a href="@Url.Action("Show", "Directors", new { Id = Model.Director.Id })">@Model.Director.Name</a>
+            </div>
+        </div>
+    }
+}
+<br />
+<div class="row">
+            <div class="col-4">
+                <div class="card">
+                    <div class="card-header">
+                        Жанры:
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        @{
+                            if (Model.GenreMovies.Count > 0)
+                            {
+                                foreach (GenreMovie genre_movie in Model.GenreMovies)
+                                {
+                                                <li class="list-group-item">
+                                                    <div class="row">
+                                                        <div class="col-10">
+                                                           <a href="@Url.Action("Show", "Genres", new { Id = genre_movie.Genre.Id })">@genre_movie.Genre.Name</a>
+                                                        </div>
+                                                        <div class="col-2">
+                                                            @using (Html.BeginForm("RemoveGenreFromMovie", "Movies", FormMethod.Post))
+                                                            {
+                                                                <input type="hidden" name="MovieId" value="@Model.Id" />
+                                                                <input type="hidden" name="GenreId" value="@genre_movie.Genre.Id" />
+                                                                <button align="right" type="submit" class="btn btn-light">X</button>
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                }
+
+                            }
+                        }
+                        <li class="list-group-item"><button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#genreModal">Добавить жанр</button></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-4">
+                <div class="card">
+                    <div class="card-header">
+                        Актеры:
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        @{
+                            if (Model.ActorMovies.Count > 0)
+                            {
+                                foreach (ActorMovie actor_movie in Model.ActorMovies)
+                                {
+                                                <li class="list-group-item">
+                                                    <div class="row">
+                                                        <div class="col-10">
+                                                            <a href="@Url.Action("Show", "Actors", new { Id = actor_movie.Actor.Id })">@actor_movie.Actor.Name</a>
+                                                        </div>
+                                                        <div class="col-2">
+                                                            @using (Html.BeginForm("RemoveActorFromMovie", "Movies", FormMethod.Post))
+                                                            {
+                                                                 <input type="hidden" name="MovieId" value="@Model.Id" />
+                                                                 <input type="hidden" name="ActorId" value="@actor_movie.Actor.Id" />
+                                                                 <button align="right" type="submit" class="btn btn-light">X</button>
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                }
+
+                            }
+                        }
+                        <li class="list-group-item"><button type="button" class="btn btn-outline-secondary"  data-toggle="modal" data-target="#actorModal">Добавить актера</button></li>
+                    </ul>
+                </div>
+            </div>
+
+
+
+            <div class="col-4">
+                <div class="card">
+                    <div class="card-header">
+                        Медиа:
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        @{
+                            if (Model.Media.Count > 0)
+                            {
+                                foreach (Media file in Model.Media)
+                                {
+                                    <li class="list-group-item"><a href="@Url.Action("Show", "Media", new { Id = file.Id })">@file.Name</a></li>
+                                }
+
+                            }
+                        }
+                        <li class="list-group-item"><a href="@Url.Action("Create", "Media", new { movie_id = Model.Id })" type="button" class="btn btn-outline-secondary">Добавить медиа</a></li>
+                    </ul>
+                </div>
+            </div>
+
+</div>
+<br />
+<div class="row">
+    @{
+        if (Model.SelectionMovies.Count > 0)
+        {
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        Учавствует в подборках:
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        @{ foreach (SelectionMovie selection_movie in Model.SelectionMovies)
+                            {
+                                <li class="list-group-item"><a href="@Url.Action("Show", "Selections", new { Id = selection_movie.Selection.Id })">@selection_movie.Selection.Name</a></li>
+                            }
+                        }
+                    </ul>
+                </div>
+            </div>
+        }
+    }
+
+</div>

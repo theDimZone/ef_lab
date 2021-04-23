@@ -1,0 +1,26 @@
+﻿@model EF_LAb.Models.Country
+@{
+    ViewData["Title"] = "Редактирование страны " + Model.Name;
+}
+
+<div class="row">
+    <div class="col">
+        <h2>Редактирование страны: @Model.Name</h2>
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-6">
+        @using (Html.BeginForm("Update", "Countries", FormMethod.Post))
+        {
+            <input type="hidden" name="Id" value="@Model.Id" />
+
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="Название" name="Name" value="@Model.Name">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Отправить</button>
+        }
+
+    </div>
+</div>

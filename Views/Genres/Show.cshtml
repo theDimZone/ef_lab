@@ -1,0 +1,68 @@
+﻿@using EF_LAb.Models
+@model EF_LAb.Models.Genre
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<div class="row">
+    <div class="col-8">
+        <h2>@Model.Name</h2>
+    </div>
+    <div class="col-2">
+        <a href="@Url.Action("Update", "Genres", new { Id = Model.Id })" type="button" class="btn btn-block btn-outline-success">Редактировать</a>
+    </div>
+    <div class="col-2">
+        <button type="button" class="btn btn-block btn-outline-danger" data-toggle="modal" data-target="#exampleModal">
+            Удалить
+        </button>
+
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Осторожно</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        ...
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отменить</button>
+                        @using (Html.BeginForm("Delete", "Genres", FormMethod.Post))
+                        {
+                            <input type="hidden" name="Id" value="@Model.Id" />
+
+                            <button type="submit" class="btn btn-block btn-danger">Удалить</button>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br />
+<div class="row">
+    @{
+        if (Model.GenreMovies.Count > 0)
+        {
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        Фильмы
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        @{ foreach (GenreMovie genre_movie in Model.GenreMovies)
+                            {
+                                <li class="list-group-item"><a href="@Url.Action("Show", "Movies", new { Id = genre_movie.Movie.Id })">@genre_movie.Movie.Name (@genre_movie.Movie.Year)</a></li>
+                            }
+                        }
+                    </ul>
+                </div>
+            </div>
+        }
+    }
+
+</div>

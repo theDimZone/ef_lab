@@ -1,0 +1,84 @@
+﻿@using EF_LAb.Models
+@model EF_LAb.Models.Director
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<div class="row">
+    <div class="col-8">
+        <h2>@Model.Name</h2>
+    </div>
+    <div class="col-2">
+        <a href="@Url.Action("Update", "Directors", new { Id = Model.Id })" type="button" class="btn btn-block btn-outline-success">Редактировать</a>
+    </div>
+    <div class="col-2">
+        <button type="button" class="btn btn-block btn-outline-danger" data-toggle="modal" data-target="#exampleModal">
+            Удалить
+        </button>
+
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Осторожно</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        ...
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отменить</button>
+                        @using (Html.BeginForm("Delete", "Directors", FormMethod.Post))
+                        {
+                            <input type="hidden" name="Id" value="@Model.Id" />
+
+                            <button type="submit" class="btn btn-block btn-danger">Удалить</button>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@{ if (Model.Country != null)
+    {
+        <div class="row">
+            <div class="col-8">
+                Страна: <a href="@Url.Action("Show", "Countries", new { Id = Model.Country.Id })">@Model.Country.Name</a>
+            </div>
+        </div>
+    }
+}
+@{ if (Model.Birthday.Year != 1) {
+        <div class="row">
+            <div class="col-8">
+                Дата рождения: @Model.Birthday.ToString("dd.MM.yyyy")
+            </div>
+        </div>
+    }
+}
+<br />
+<div class="row">
+    @{
+        if (Model.Movies.Count > 0)
+        {
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        Фильмы
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        @{ foreach (Movie movie in Model.Movies)
+                            {
+                                <li class="list-group-item"><a href="@Url.Action("Show", "Movies", new { Id = movie.Id })">@movie.Name (@movie.Year)</a></li>
+                            }
+                        }
+                    </ul>
+                </div>
+            </div>
+        }
+    }
+
+</div>

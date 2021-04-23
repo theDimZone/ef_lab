@@ -1,0 +1,22 @@
+﻿@model List<EF_LAb.Models.Movie>
+@{
+    ViewData["Title"] = "Поиск по фильмам";
+}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                Поиск по фильмам: "@ViewContext.HttpContext.Request.Query["q"]"
+            </div>
+            <ul class="list-group list-group-flush">
+                @{
+                    foreach (EF_LAb.Models.Movie movie in Model)
+                    {
+                        <li class="list-group-item"><a href="@Url.Action("Show", "Movies", new { Id = movie.Id })">@movie.Name (@movie.Year)</a></li>
+                    }
+                }
+            </ul>
+        </div>
+    </div>
+
+</div>

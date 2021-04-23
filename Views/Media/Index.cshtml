@@ -1,0 +1,18 @@
+﻿@model List<EF_LAb.Models.Media>
+@{
+    ViewData["Title"] = "Медиа";
+}
+
+<div class="row">
+    <div class="col-12">
+        <ul class="list-group">
+            <li class="list-group-item">Все медиа файлы</li>
+            @{
+                foreach (var file in Model)
+                {
+                    <li class="list-group-item"><a href="@Url.Action("Show", "Media", new { Id = file.Id })">@file.Name</a></li>
+                }
+            }
+        </ul>
+    </div>
+</div>
